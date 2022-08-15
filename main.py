@@ -4,7 +4,6 @@ import os
 import curses
 
 import json
-from turtle import position
 from lolr import Champion, Lolr
 import random
 
@@ -39,6 +38,7 @@ def main(stdscr):
 
     tried_champ_offset = 0
     tried_champ_max_show = rows - 16
+    max_suggestions = 12
 
     confirm_quit = False
     while True:
@@ -48,10 +48,10 @@ def main(stdscr):
         stdscr.erase()
         stdscr.addstr(f"> {current_input}\n\n")
 
-        for suggestion in suggestions[:5]:
+        for suggestion in suggestions[:max_suggestions]:
             stdscr.addstr(f"{suggestion}\n")
 
-        stdscr.move(8, 0)
+        stdscr.move(2+max_suggestions, 0)
         for champion in tried_champs[::-1][tried_champ_offset:tried_champ_offset+tried_champ_max_show]:
             name_comp = "✓" if champion.name == winner_champ.name else " "
             gender_comp = "✓" if champion.gender == winner_champ.gender else " "
