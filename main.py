@@ -51,7 +51,7 @@ def main(stdscr):
         for suggestion in suggestions[:max_suggestions]:
             stdscr.addstr(f"{suggestion}\n")
 
-        stdscr.move(2+max_suggestions, 0)
+        stdscr.move(4+max_suggestions, 0)
         for champion in tried_champs[::-1][tried_champ_offset:tried_champ_offset+tried_champ_max_show]:
             name_comp = "✓" if champion.name == winner_champ.name else " "
             gender_comp = "✓" if champion.gender == winner_champ.gender else " "
