@@ -9,7 +9,17 @@ from lolr import Champion, Lolr
 import random
 
 
+color_map = {"✓": 1,
+             " ": 0,
+             "*": 2,
+             "<": 0,
+             ">": 0}
+
+
 def main(stdscr):
+    curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
+    curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+
     with open("lol.json", "r") as f:
         data = json.load(f)
 
@@ -82,15 +92,22 @@ def main(stdscr):
             else:
                 release_year_comp = "✓"
 
-            stdscr.addstr(f"{champion.name}{name_comp}  ")
-            stdscr.addstr(f"{champion.gender}{gender_comp}  ")
-            stdscr.addstr(f"{','.join(champion.position)}{position_comp}  ")
-            stdscr.addstr(f"{','.join(champion.species)}{species_comp}  ")
-            stdscr.addstr(f"{champion.resource}{resource_comp}  ")
+            stdscr.addstr(f"{champion.name}{name_comp}  ",
+                          curses.color_pair(color_map[name_comp]))
+            stdscr.addstr(f"{champion.gender}{gender_comp}  ",
+                          curses.color_pair(color_map[gender_comp]))
+            stdscr.addstr(f"{','.join(champion.position)}{position_comp}  ",
+                          curses.color_pair(color_map[position_comp]))
             stdscr.addstr(
-                f"{','.join(champion.range_type)}{range_type_comp}  ")
-            stdscr.addstr(f"{','.join(champion.region)}{region_comp}  ")
-            stdscr.addstr(f"{champion.release_year} {release_year_comp}\n")
+                f"{','.join(champion.species)}{species_comp}  ", curses.color_pair(color_map[species_comp]))
+            stdscr.addstr(f"{champion.resource}{resource_comp}  ",
+                          curses.color_pair(color_map[resource_comp]))
+            stdscr.addstr(
+                f"{','.join(champion.range_type)}{range_type_comp}  ", curses.color_pair(color_map[range_type_comp]))
+            stdscr.addstr(
+                f"{','.join(champion.region)}{region_comp}  ", curses.color_pair(color_map[region_comp]))
+            stdscr.addstr(f"{champion.release_year} {release_year_comp}\n",
+                          curses.color_pair(color_map[release_year_comp]))
 
         stdscr.move(0, len(current_input)+2)
 
