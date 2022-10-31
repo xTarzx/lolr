@@ -39,6 +39,7 @@ def main(stdscr):
     tried_champ_offset = 0
     tried_champ_max_show = rows - 16
     max_suggestions = 12
+    suggestion_offset = 0
 
     confirm_quit = False
     while True:
@@ -48,7 +49,7 @@ def main(stdscr):
         stdscr.erase()
         stdscr.addstr(f"> {current_input}\n\n")
 
-        for suggestion in suggestions[:max_suggestions]:
+        for suggestion in suggestions[suggestion_offset:max_suggestions+suggestion_offset]:
             stdscr.addstr(f"{suggestion}\n")
 
         stdscr.move(4+max_suggestions, 0)
@@ -143,6 +144,19 @@ def main(stdscr):
                 tried_champ_offset = 0
             continue
 
+        elif key == curses.KEY_RIGHT:
+            suggestion_offset += 1
+
+            suggestion_offset = min(
+                len(suggestions) - max_suggestions, suggestion_offset)
+
+            continue
+
+        elif key == curses.KEY_LEFT:
+            suggestion_offset -= 1
+            suggestion_offset = max(0, suggestion_offset)
+            continue
+
         elif isenter:
             if current_input in suggestions:
                 tried.append(current_input)
@@ -151,6 +165,7 @@ def main(stdscr):
             continue
 
         current_input += chr(key)
+        suggestion_offset = 0
 
 
 if __name__ == "__main__":
